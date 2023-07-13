@@ -9,7 +9,7 @@ time.sleep(2)  # Allow some time for the Arduino to initialize
 
 # Main loop
 while True:
-    # Read EMG data from MyoWare sensor (Replace this with your actual code to read from the sensor)
+    # Read EMG data from MyoWare sensor (Replace this with actual code to read from the sensor)
     emg_data = read_emg_data()
 
     # Perform data processing and translation
