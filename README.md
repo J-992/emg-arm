@@ -1,2 +1,4 @@
 # EMG-Prosthetic-Arm
-This is the code used to work on the prosthetic arm
+(STILL IN DEVELOPMENT)
+
+loads of delay as chip design took multiple iterations
