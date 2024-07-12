@@ -2,16 +2,10 @@
 <<<<<<< HEAD
 Prosthetic arm crit files
 
-- need to fabricate custom pcb
-- need to design hand prototype
-- need to design finger/hand movement
+- need to fabricate custom pcb DONE
+- need to design hand prototype 
+- need to design finger/hand actuation mechanism
 
-wet electrode creation
-https://www.instructables.com/Muscle-EMG-Sensor-for-a-Microcontroller/
-
-
-dry electrode creation
-https://www.instructables.com/Simple-Dry-Electrode-EMG-for-Arduino/
 
 Code Reqs:
 - class to import real time servo data
