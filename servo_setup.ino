@@ -1,43 +1,49 @@
 #include <Servo.h>
 
-Servo servo1;
-Servo servo2;
-Servo servo3;
-Servo servo4;
-Servo servo5;
+// Create a class that reads in signals from EMG band
+
+class EMGSensor {
+private:
+    int pin;
+
+public:
+    EMGSensor(int analogPin) : pin(analogPin) {}
+
+    //reads EMG signal and converts into a raw analog signal that is readable by arduino
+    int readSignal() {
+        return analogRead(pin);
+    }
+
+    //normalizes signal data for arduino servo range 0-180 is motor degree range)
+    //0-1023 is due to Arduinos 10-bit ADC because the analogread() is kinda retarded.
+    //takes in EMG and normalizes it in terms of a motor angle
+    int getNormalizedSignal() {
+        int rawSignal = readSignal(); 
+        return map(rawSignal, 0, 1023, 0, 180);  // Map to servo angle range
+    }
+};
+
+// Setup for the servo motors
+const int NUM_SERVOS = 5;
+const int servoPins[NUM_SERVOS] = {3, 5, 6, 9, 10};
+Servo servos[NUM_SERVOS];
+int positions[NUM_SERVOS] = {90, 90, 90, 90, 90};
+
+// MyoWare sensor setup
+MyoWareSensor myoSensor(A0);  // MyoWare sensor connected to analog pin A0
 
 void setup() {
-  servo1.attach(9);  // Connect servo1 to pin 9
-  servo2.attach(10); // Connect servo2 to pin 10
-  servo3.attach(11); // Connect servo3 to pin 11
-  servo4.attach(12); // Connect servo4 to pin 12
-  servo5.attach(13); // Connect servo5 to pin 13
-  Serial.begin(9600);
+    for (int i = 0; i < NUM_SERVOS; i++) {
+        servos[i].attach(servoPins[i]);
+        servos[i].write(positions[i]);
+    }
 }
 
 void loop() {
-  if (Serial.available()) {
-    String input = Serial.readStringUntil('\n');
-    input.trim();
-    int commaPos[5];
-    int servoSignals[5];
-    for (int i = 0; i < 5; i++) {
-      commaPos[i] = input.indexOf(',');
-      if (commaPos[i] == -1) {
-        break;
-      }
-      servoSignals[i] = input.substring(0, commaPos[i]).toInt();
-      input = input.substring(commaPos[i] + 1);
-    }
-    if (input.length() > 0) {
-      servoSignals[4] = input.toInt();
-    }
-    if (commaPos[0] != -1 && commaPos[1] != -1 && commaPos[2] != -1 && commaPos[3] != -1 && commaPos[4] != -1) {
-      servo1.write(servoSignals[0]);
-      servo2.write(servoSignals[1]);
-      servo3.write(servoSignals[2]);
-      servo4.write(servoSignals[3]);
-      servo5.write(servoSignals[4]);
-    }
-  }
+    //int muscleSignal = myoSensor.getNormalizedSignal();
+
+    // Use the signal to control one or more servos (example for servo1)
+    servos[0].write(muscleSignal);
+
+    delay(100);
 }
