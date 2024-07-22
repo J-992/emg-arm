@@ -1,5 +1,4 @@
 # EMG-Prosthetic-Arm
-<<<<<<< HEAD
 Prosthetic arm crit files
 
 - need to fabricate custom pcb DONE
